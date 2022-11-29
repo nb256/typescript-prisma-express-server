@@ -7,7 +7,10 @@
     "build": "swc src -d dist",
     "start": "pnpm prisma:migrate-prod && pnpm build && cross-env NODE_ENV=production node dist/index.js",
     "prisma:migrate": "prisma migrate dev",
-    "prisma:migrate-prod": "prisma migrate deploy"
+    "prisma:migrate-prod": "prisma migrate deploy",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "test": "pnpm docker:up && jest -i --detectOpenHandles --no-cache --watchAll"
   },
   "repository": {
     "type": "git",
@@ -25,15 +28,23 @@
     "express": "^4.18.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.18.6",
     "@swc/cli": "^0.1.57",
     "@swc/core": "^1.3.20",
     "@tsconfig/node18": "^1.0.1",
     "@types/express": "^4.17.14",
+    "@types/jest": "^29.2.3",
     "@types/node": "^18.11.9",
+    "@types/supertest": "^2.0.12",
     "cross-env": "^7.0.3",
     "eslint": "^8.28.0",
+    "jest": "^29.3.1",
     "nodemon": "^2.0.20",
     "prisma": "^4.6.1",
+    "supertest": "^6.3.1",
+    "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.3"
   },
