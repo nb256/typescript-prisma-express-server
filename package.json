@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "Test work",
   "scripts": {
-    "dev": "pnpm prisma:migrate && cross-env NODE_ENV=development nodemon",
+    "dev": "pnpm prisma:migrate && pnpm prisma:generate && pnpm prisma:db-seed && cross-env NODE_ENV=development nodemon",
     "build": "swc src -d dist",
-    "start": "pnpm prisma:migrate-prod && pnpm build && cross-env NODE_ENV=production node dist/index.js",
+    "start": "pnpm prisma:migrate-prod && pnpm prisma:generate && pnpm prisma:db-seed && pnpm build && cross-env NODE_ENV=production node dist/index.js",
     "prisma:migrate": "prisma migrate dev",
     "prisma:migrate-prod": "prisma migrate deploy",
+    "prisma:db-seed": "prisma db seed",
+    "prisma:generate": "prisma generate",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "test": "pnpm docker:up && jest -i --detectOpenHandles --no-cache --watchAll"
@@ -49,6 +51,7 @@
     "typescript": "^4.9.3"
   },
   "prisma": {
-    "schema": "src/prisma/schema.prisma"
+    "schema": "src/prisma/schema.prisma",
+    "seed": "ts-node src/prisma/seed.ts"
   }
 }
