@@ -20,6 +20,7 @@ model Package {
   createdAt            DateTime       @default(now())
   updatedAt            DateTime       @default(now()) @updatedAt
   status               ShipmentStatus @default(CREATED)
+  toDeliveryPoint      DeliveryPoint  @relation(fields: [toDeliveryPointValue], references: [value])
 
   @@map(name: "packages")
 }
@@ -29,4 +30,14 @@ enum ShipmentStatus {
   LOADED_INTO_SACK @map("2")
   LOADED           @map("3")
   UNLOADED         @map("4")
+}
+
+model DeliveryPoint {
+  value     Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  packages  Package[]
+
+  @@map(name: "delivery_points")
 }
