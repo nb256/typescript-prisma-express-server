@@ -11,14 +11,22 @@ generator client {
 }
 
 model Package {
-  barcode              String   @id
+  barcode              String         @id
   toDeliveryPointValue Int
   desi                 Int
   // To return `Date`s intact through the API we use transformers
   // https://trpc.io/docs/data-transformers
   // This is unique so it can be used for cursor-based pagination
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @default(now()) @updatedAt
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @default(now()) @updatedAt
+  status               ShipmentStatus @default(CREATED)
 
   @@map(name: "packages")
+}
+
+enum ShipmentStatus {
+  CREATED          @map("1")
+  LOADED_INTO_SACK @map("2")
+  LOADED           @map("3")
+  UNLOADED         @map("4")
 }
