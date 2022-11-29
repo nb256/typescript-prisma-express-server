@@ -21,6 +21,8 @@ model Package {
   updatedAt            DateTime       @default(now()) @updatedAt
   status               ShipmentStatus @default(CREATED)
   toDeliveryPoint      DeliveryPoint  @relation(fields: [toDeliveryPointValue], references: [value])
+  sack                 Sack?          @relation(fields: [sackBarcode], references: [barcode])
+  sackBarcode          String?
 
   @@map(name: "packages")
 }
@@ -38,6 +40,19 @@ model DeliveryPoint {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @default(now()) @updatedAt
   packages  Package[]
+  sacks     Sack[]
 
   @@map(name: "delivery_points")
+}
+
+model Sack {
+  barcode              String         @id
+  toDeliveryPointValue Int
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @default(now()) @updatedAt
+  status               ShipmentStatus @default(CREATED)
+  packages             Package[]
+  toDeliveryPoint      DeliveryPoint  @relation(fields: [toDeliveryPointValue], references: [value])
+
+  @@map(name: "sacks")
 }
