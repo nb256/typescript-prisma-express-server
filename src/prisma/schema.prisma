@@ -35,14 +35,20 @@ enum ShipmentStatus {
 }
 
 model DeliveryPoint {
-  value     Int       @id @default(autoincrement())
-  name      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
+  value     Int               @id @default(autoincrement())
+  name      DeliveryPointType
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @default(now()) @updatedAt
   packages  Package[]
   sacks     Sack[]
 
   @@map(name: "delivery_points")
+}
+
+enum DeliveryPointType {
+  BRANCH              @map("Branch")
+  DISTRIBUTION_CENTRE @map("Distribution Centre")
+  TRANSFER_CENTRE     @map("Transfer Centre")
 }
 
 model Sack {
