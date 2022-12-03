@@ -62,3 +62,20 @@ model Sack {
 
   @@map(name: "sacks")
 }
+
+model FailedShipment {
+  id                   Int                  @id @default(autoincrement())
+  barcode              String
+  toDeliveryPointValue Int
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @default(now()) @updatedAt
+  reason               FailedShipmentReason
+
+  @@map(name: "failed_shipments")
+}
+
+enum FailedShipmentReason {
+  INVALID_BARCODE
+  WRONG_DELIVERY_POINT
+  INVALID_DELIVERY_POINT
+}
