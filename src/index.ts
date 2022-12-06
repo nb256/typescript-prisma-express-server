@@ -7,6 +7,8 @@ const { SERVER_PORT = 8080 } = process.env;
 
 const app = express();
 
+app.use(express.json());
+
 app.get("/health", (_, res) => {
   res.send("Hello World!");
 });
