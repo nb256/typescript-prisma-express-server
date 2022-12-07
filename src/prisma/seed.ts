@@ -56,7 +56,7 @@ const sacks = [
   },
 ];
 
-async function main() {
+export async function main() {
   for (const deliveryPoint of deliveryPoints) {
     await prisma.deliveryPoint.upsert({
       where: { value: deliveryPoint.value },
@@ -90,3 +90,37 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+
+export async function removeSeeds() {
+  await prisma.package.deleteMany({
+    where: {
+      barcode: {
+        in: packages.map((pkg) => pkg.barcode),
+      },
+    },
+  });
+
+  await prisma.sack.deleteMany({
+    where: {
+      barcode: {
+        in: sacks.map((sack) => sack.barcode),
+      },
+    },
+  });
+
+  await prisma.failedShipment.deleteMany({
+    where: {
+      barcode: {
+        in: [...packages, ...sacks].map((item) => item.barcode),
+      },
+    },
+  });
+
+  await prisma.deliveryPoint.deleteMany({
+    where: {
+      value: {
+        in: deliveryPoints.map((deliveryPoint) => deliveryPoint.value),
+      },
+    },
+  });
+}
